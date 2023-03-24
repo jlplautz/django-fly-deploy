@@ -195,4 +195,55 @@ https://cookiecutter.readthedocs.io/en/stable/
 
 
 
-# Quando usamos um entrpoint
+# Criar o file github actions
+  - name: Django CI
+
+    on:
+      push:
+        branches: [ "main" ]
+      pull_request:
+        branches: [ "main" ]
+
+    jobs:
+      build:
+
+        runs-on: ubuntu-latest
+        env:
+          DATABASE_URL: postgres://jlplautz:lingara@postgres:5432/db_fly
+
+        services:
+          postgres:
+            image: postgres
+            env:
+              POSTGRES_PASSWORD: lingara
+              POSTGRES_USER: jlplautz
+            options: >-
+              --health-cmd pg_isready
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 5
+            ports:
+              - 5432:5432    
+        
+        steps:
+        - uses: actions/checkout@v3
+        - name: Set up Python 3.11.0
+          uses: actions/setup-python@v3
+          with:
+            python-version: '3.11.0'
+        - name: Install Dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+        - name: Setup .env
+          run: cp .env.example .env
+        - name: Run Tests
+          run: |
+            python manage.py test
+
+
+# No setting do project no github
+  - Secrets and variables -> Actions secrets / New secret
+  (.venv) ╭─plautz@ProBook-6470b ~/VSCProjects/django-fly-deploy ‹main› 
+          ╰─$ fly auth token         
+          <secret token> copy / paste no github
