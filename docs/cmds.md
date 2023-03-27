@@ -247,3 +247,29 @@ https://cookiecutter.readthedocs.io/en/stable/
   (.venv) ╭─plautz@ProBook-6470b ~/VSCProjects/django-fly-deploy ‹main› 
           ╰─$ fly auth token         
           <secret token> copy / paste no github
+
+## criar uma pagina inicial
+  - criar uma app
+    - mng startapp core
+  - inserir a app no settings.py -> INSTALLED_APPS
+  - criar file core/urls.py
+    - from django.urls import path
+      from . import views
+
+      urlpatterns = [
+          path('', views.home)
+      ]
+  - criar a fiunção na views
+    - from django.http import HttpResponse
+      from django.shortcuts import render
+ 
+      # Create your views here.
+      def home(request):
+          return HttpResponse('Django Fly')
+
+## criar um teste
+  - from django.test import TestCase
+    class TestPages(TestCase):
+        def test_home(self):
+            response = self.client.get('/')
+            self.assertEquals(response.status_code, 200)
