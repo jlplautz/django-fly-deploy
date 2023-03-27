@@ -13,14 +13,14 @@ jobs:
     name: Continous Integration
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: postgres://jlplautz:lingara@postgres:5432/db_fly
+      DATABASE_URL: postgres://devpro:devpro@localhost:5432/devpro
 
     services:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: lingara
-          POSTGRES_USER: jlplautz
+          POSTGRES_PASSWORD: devpro
+          POSTGRES_USER: devpro
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -45,8 +45,7 @@ jobs:
       run: cp .env.example .env
       
     - name: Run Tests
-      run: |
-        python manage.py test
+      run: python manage.py test
 
   deploy:
     name: Deploy app
@@ -54,7 +53,6 @@ jobs:
     
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      # SECRET_KEY: ${{ secrets.SECRET_KEY }}
       
     
     needs: ci
@@ -62,5 +60,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      # - run: flyctl secrets set SECRET_KEY="${{ secrets.SECRET_KEY }}" 
       - run: flyctl deploy --remote-only
