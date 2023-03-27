@@ -18,6 +18,7 @@ RUN set -ex && \
 
 COPY . /app/
 
+
 EXPOSE 8000
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "fly.wsgi"]
