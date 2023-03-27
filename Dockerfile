@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.licenses=MIT
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /code
+WORKDIR /app
 
 COPY requirements.txt ./requirements.txt
 
@@ -16,7 +16,7 @@ RUN set -ex && \
     pip install -U pip && \
     pip install --no-cache-dir -r requirements.txt
 
-COPY . /code/
+COPY . /app/
 
 EXPOSE 8000
 
