@@ -145,6 +145,36 @@ Copiar e colocar na raiz do projeto e adicionar o .env
      - docker build -t devpro .
   ## cria o containewr docker
   - docker run --rm -p 8000:8000 -e SECRET_KEY=secret ALLOWED_HOSTS=localhost, devpro
+  ## cria o containewr docker + command
+  - docker run --rm -it -p 8000:8000 -e SECRET_KEY=secret ALLOWED_HOSTS=localhost, devpro python manage.py migrate
+  ## cria o containewr docker 
+  - docker run --rm -it -p 8000:8000 --env-file=.env -d fly-deploy
+  ## para acessar o container
+  - ╰─$ docker ps -a                   
+    CONTAINER ID   IMAGE        COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+    c36d044643eb   fly-deploy   "gunicorn --bind :80…"   4 minutes ago   Up 4 minutes   0.0.0.0:8000->8000/tcp, :::8000->8000/tcp   recursing_davinci
+
+    ╰─$ docker exec -it c36d044643eb bash                  
+    root@c36d044643eb:/app# ls -la
+    total 192
+    drwxr-xr-x 1 root root   4096 Mar 27 17:22 .
+    drwxr-xr-x 1 root root   4096 Mar 27 17:31 ..
+    -rw-rw-r-- 1 root root    214 Mar 24 21:05 .dockerignore
+    -rw-rw-r-- 1 root root     53 Mar 24 21:14 .env.example
+    drwxrwxr-x 3 root root   4096 Mar 23 22:32 .github
+    -rw-rw-r-- 1 root root   3078 Dec 28 22:45 .gitignore
+    -rw-rw-r-- 1 root root      7 Dec 14 22:19 .python-version
+    -rw------- 1 root root    497 Mar 27 17:19 Dockerfile
+    -rw-rw-r-- 1 root root     20 Mar 23 20:51 README.md
+    -rw-r--r-- 1 root root 131072 Mar 27 16:00 db.sqlite3
+    drwxrwxr-x 2 root root   4096 Dec 15 22:47 docs
+    drwxrwxr-x 4 root root   4096 Mar 25 04:06 fly
+    -rw-rw-r-- 1 root root    851 Mar 27 17:20 fly.toml
+    -rwxrwxr-x 1 root root    659 Dec 14 22:20 manage.py
+    drwxrwxr-x 3 root root   4096 Mar 24 03:53 public
+    -rw-rw-r-- 1 root root    129 Mar 25 01:52 requirements.txt
+
+  # atenção com o diretorio app e o diretorio puclic (conteudo static)
 
 # para executar script bash
 #!/bin/bash
@@ -273,3 +303,4 @@ https://cookiecutter.readthedocs.io/en/stable/
         def test_home(self):
             response = self.client.get('/')
             self.assertEquals(response.status_code, 200)
+
