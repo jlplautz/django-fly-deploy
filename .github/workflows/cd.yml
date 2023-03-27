@@ -8,6 +8,7 @@ on:
       - completed
     branches:
       - main
+      - 14_alterar_git_action
 
 jobs:
   deploy:
