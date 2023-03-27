@@ -176,11 +176,16 @@ Copiar e colocar na raiz do projeto e adicionar o .env
 
   # atenção com o diretorio app e o diretorio puclic (conteudo static)
 
-# para executar script bash
+# para executar script bash alterar a permissão chmod +x start.sh
 #!/bin/bash
-set -euxo pipefail # se um deste cmds abaixa falhar o script sera abortado
+set -euo pipefail # se um deste cmds abaixa falhar o script sera abortado
 python manage.py collectstatic --noinput
 gunicorn --bind :8000 --works 2 fly.wsgi
+
+# para rodar inserir no dockerfile como
+  - RUN ./start.sh
+  # remover do dockerfile o comando 
+  - RUN ["python", "manage.py", "collectstatic", "--noinput"]
 
 
 # opção com a lib whitenoise
@@ -304,3 +309,7 @@ https://cookiecutter.readthedocs.io/en/stable/
             response = self.client.get('/')
             self.assertEquals(response.status_code, 200)
 
+
+
+## Inserir o CMD run no dockerfile para fazer o collectstatic nãp precisando versionar para o gitgub
+  - RUN ["python", "manage.py", "collectstatic", "--noinput"]
