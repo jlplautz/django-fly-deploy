@@ -310,6 +310,3 @@ https://cookiecutter.readthedocs.io/en/stable/
             self.assertEquals(response.status_code, 200)
 
 
-
-## Inserir o CMD run no dockerfile para fazer o collectstatic nãp precisando versionar para o gitgub
-  - RUN ["python", "manage.py", "collectstatic", "--noinput"]
