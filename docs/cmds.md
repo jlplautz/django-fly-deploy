@@ -304,9 +304,15 @@ https://cookiecutter.readthedocs.io/en/stable/
 
 ## criar um teste
   - from django.test import TestCase
+  
     class TestPages(TestCase):
         def test_home(self):
             response = self.client.get('/')
             self.assertEquals(response.status_code, 200)
 
 
+## Setting do parameter CSRF_TRUSTED_ORIGINS
+  - NO ARQUIVO SETTING
+    - O Django verifica o middlewire observando qual a origem que o navegador enviou e comparando com o host que ele tem da requisição
+    - Temos que inserir no Settings.py -> CSRF_TRUSTED_ORIGINS = ["https://django-fly-jlp.fly.dev"] 
+      pois o fly deve ter um loadbalance para acessar aplicação
